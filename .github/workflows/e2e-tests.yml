@@ -2,6 +2,11 @@ name: E2E Tests
 
 on:
   workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Escolha o navegador para executar os testes (chrome ou firefox)'
+        required: true
+        default: 'chrome'
   
 jobs:
   tests:
@@ -14,18 +19,18 @@ jobs:
         uses: cypress-io/github-action@v7
         with:
           start: npm start
-          browser: chrome
+          browser: ${{ github.event.inputs.browser }}
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-screenshots-chrome
+          name: cypress-screenshots-${{ github.event.inputs.browser }}
           path: cypress/screenshots
 
       - name: Upload Videos
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos-chrome
+          name: cypress-videos-${{ github.event.inputs.browser }}
           path: cypress/videos
