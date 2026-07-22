@@ -1,0 +1,17 @@
+name: E2E Tests
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v6
+        
+      - name: Cypress run
+        uses: cypress-io/github-action@v7
+        with:
+          start: npm start
+          browser: chrome
